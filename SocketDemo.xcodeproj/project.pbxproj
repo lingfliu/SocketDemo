@@ -16,6 +16,7 @@
 		913858F621A5492C00C7DCFC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 913858F521A5492C00C7DCFC /* main.m */; };
 		9138590021A5492C00C7DCFC /* SocketDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 913858FF21A5492C00C7DCFC /* SocketDemoTests.m */; };
 		9138590B21A5492C00C7DCFC /* SocketDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9138590A21A5492C00C7DCFC /* SocketDemoUITests.m */; };
+		9138591A21A549B600C7DCFC /* UTKComm.m in Sources */ = {isa = PBXBuildFile; fileRef = 9138591921A549B600C7DCFC /* UTKComm.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,8 @@
 		9138590621A5492C00C7DCFC /* SocketDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SocketDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9138590A21A5492C00C7DCFC /* SocketDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SocketDemoUITests.m; sourceTree = "<group>"; };
 		9138590C21A5492C00C7DCFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9138591821A5494200C7DCFC /* UTKComm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UTKComm.h; sourceTree = "<group>"; };
+		9138591921A549B600C7DCFC /* UTKComm.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UTKComm.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +116,8 @@
 				913858F421A5492C00C7DCFC /* Info.plist */,
 				913858F521A5492C00C7DCFC /* main.m */,
 				913858EC21A5492B00C7DCFC /* SocketDemo.xcdatamodeld */,
+				9138591821A5494200C7DCFC /* UTKComm.h */,
+				9138591921A549B600C7DCFC /* UTKComm.m */,
 			);
 			path = SocketDemo;
 			sourceTree = "<group>";
@@ -269,6 +274,7 @@
 				913858E821A5492B00C7DCFC /* ViewController.m in Sources */,
 				913858F621A5492C00C7DCFC /* main.m in Sources */,
 				913858E521A5492B00C7DCFC /* AppDelegate.m in Sources */,
+				9138591A21A549B600C7DCFC /* UTKComm.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
