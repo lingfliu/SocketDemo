@@ -14,15 +14,20 @@
 
 
 @interface UTKComm:NSObject
+@property unsigned char *buff;
 @property CFSocketRef socket;
+@property CFRunLoopRef runloop;
+@property CFRunLoopSourceRef runloopSource;
+@property CFSocketContext ctx;
 @property NSString *ip;
 @property int port;
 
 -(instancetype) initWithIp:(NSString*)ip port:(int)port;
 -(void) connect;
 -(void) disconnect;
--(int) recv:(unsigned char*)buff length:(int)len;
--(int) send:(unsigned char*)buff length:(int)len;
+-(long) recv:(unsigned char*)buff length:(int)len;
+-(long) send:(unsigned char*)buff length:(int)len;
 
+-(void) onDisconnect;
 @end
 #endif /* UTKComm_h */

@@ -16,7 +16,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UTKComm *comm = [UTKComm initWithIp:@"192.168.0.100" port:9002];
+    UTKComm *comm = [[UTKComm alloc] initWithIp:@"127.0.0.1" port:9003];
     [comm connect];
     // Do any additional setup after loading the view, typically from a nib.
 }
