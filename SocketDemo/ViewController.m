@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "UTKComm.h"
 @interface ViewController ()
 
 @end
@@ -16,6 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UTKComm *comm = [UTKComm initWithIp:@"192.168.0.100" port:9002];
+    [comm connect];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
