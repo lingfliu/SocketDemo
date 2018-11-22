@@ -43,6 +43,7 @@
     for (int m = 0; m < 3; m ++) {
         free(buff[m]);
     }
+    free(buff);
 }
 
 -(void) connect {
@@ -60,7 +61,7 @@
     _ctx.release = NULL;
     _ctx.copyDescription = NULL;
     
-    socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketConnectCallBack|kCFSocketDataCallBack|kCFSocketWriteCallBack, (CFSocketCallBack)SktCallback, &_ctx);
+    socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketConnectCallBack|kCFSocketDataCallBack, (CFSocketCallBack)SktCallback, &_ctx);
     assert(CFSocketIsValid(socket));
     
     int val = 1;

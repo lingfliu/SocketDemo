@@ -8,8 +8,11 @@
 
 #import "AppDelegate.h"
 #import "UTKComm.h"
+#import "SocketDemo-Swift.h"
+
 @interface AppDelegate ()
 @property UTKComm *comm;
+@property UTKAppComm *appcomm;
 @end
 
 @implementation AppDelegate
@@ -18,8 +21,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 //    comm = [[UTKComm alloc] initWithIp:@"127.0.0.1" port:9002];
-    comm = [[UTKComm alloc] initWithIp:@"192.168.0.100" port:9005];
-    [comm connect];
+//    comm = [[UTKComm alloc] initWithIp:@"127.0.0.1" port:9002];
+//    [comm connect];
+
 //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
 //        [comm connect];
 //    });
