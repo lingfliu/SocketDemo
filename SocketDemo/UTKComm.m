@@ -10,13 +10,13 @@
 #import "UTKComm.h"
 #import <arpa/inet.h>
 #import <unistd.h>
+#include <sys/fcntl.h>
 
 @implementation UTKComm
 @synthesize buff;
 @synthesize socket;
 @synthesize ip;
 @synthesize port;
-@synthesize runloop;
 @synthesize runloopSource;
 
 -(instancetype) initWithIp:(NSString*)ip port:(int)port {
@@ -80,16 +80,17 @@
 
 -(long) recv:(unsigned char*)buff length:(int)len {
     long res = recv(CFSocketGetNative(self.socket), buff, sizeof(unsigned char)*1024, 0);
-    if (res < 0){
-        NSLog(@"socket broken, errno=", errno);
+    if (res == -1 && errno != EAGAIN){
+        NSLog(@"socket broken while reading, errno=%ld", errno);
         [self onDisconnect];
     }
+    NSLog(@"received data len =%ld, content = %s", res, buff);
     return res;
 }
 -(long) send:(unsigned char*)buff length:(int)len {
     long res = send(CFSocketGetNative(socket), buff, sizeof(unsigned char), len);
-    if (res < 0) {
-        NSLog(@"socket broken, errno=", errno);
+    if (res == -1) {
+        NSLog(@"socket broken while sending, errno=%ld", errno);
         [self onDisconnect];
     }
     return res;
@@ -100,7 +101,7 @@
 }
 
 void SktCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info){
-//    UTKComm *tcpComm = (__bridge UTKComm*) info;
+    UTKComm *tcpComm = (__bridge UTKComm*) info;
     switch (type) {
         case kCFSocketConnectCallBack:
             if (data == NULL) {
@@ -115,12 +116,9 @@ void SktCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, co
             break;
         case kCFSocketDataCallBack:
             NSLog(@"incoming data");
-            unsigned char buff[1024];
-            long res = recv(CFSocketGetNative(s), buff, sizeof(buff[0])*4, 0);
-//            long res = [tcpComm recv:tcpComm.buff length:1024];
+            long res = [tcpComm recv:tcpComm.buff length:1024];
             if (res > 0) {
-                send(CFSocketGetNative(s), buff, sizeof(buff[0]*res), 0);
-//                [tcpComm send:tcpComm.buff length:res];
+                [tcpComm send:tcpComm.buff length:res];
             }
             break;
         case kCFSocketWriteCallBack:
