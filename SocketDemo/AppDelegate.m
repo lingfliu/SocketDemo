@@ -7,16 +7,22 @@
 //
 
 #import "AppDelegate.h"
-
+#import "UTKComm.h"
 @interface AppDelegate ()
-
+@property UTKComm *comm;
 @end
 
 @implementation AppDelegate
-
+@synthesize comm;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+//    comm = [[UTKComm alloc] initWithIp:@"112.124.70.101" port:9002];
+    comm = [[UTKComm alloc] initWithIp:@"127.0.0.1" port:9002];
+    [comm connect];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [comm connect];
+//    });
     return YES;
 }
 

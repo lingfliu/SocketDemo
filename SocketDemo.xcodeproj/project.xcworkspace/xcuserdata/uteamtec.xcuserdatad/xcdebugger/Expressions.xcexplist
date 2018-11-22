@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[UTKComm recv]:UTKComm.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "bf[1]">
+            </PersistentString>
+            <PersistentString
+               value = "bf[2]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__29-[ViewController viewDidLoad]_block_invoke:ViewController.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

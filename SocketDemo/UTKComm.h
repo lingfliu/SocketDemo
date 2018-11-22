@@ -12,20 +12,33 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 
+static const int SKT_STATE_DISCONNECT = 1;
+static const int SKT_STATE_CONNECTTING = 2;
+static const int SKT_STATE_CONNECTED = 3;
+
+@protocol UTKCommDelegate
+@required -(void) onStateChanged:(int) state;
+@required -(void) onDataReceived:(unsigned char*) buff length:(int)len;
+@optional -(void) onDataSent:(int)len;
+@end
 
 @interface UTKComm:NSObject
-@property unsigned char *buff;
+@property int state;
+@property unsigned char **buff;
+@property int buffIdx;
 @property CFSocketRef socket;
 @property CFRunLoopRef runloop;
 @property CFRunLoopSourceRef runloopSource;
 @property CFSocketContext ctx;
 @property NSString *ip;
 @property int port;
+@property NSLock *lock;
+@property id<UTKCommDelegate> delegate;
 
 -(instancetype) initWithIp:(NSString*)ip port:(int)port;
 -(void) connect;
 -(void) disconnect;
--(long) recv:(unsigned char*)buff length:(int)len;
+-(long) recv;
 -(long) send:(unsigned char*)buff length:(int)len;
 
 -(void) onDisconnect;
