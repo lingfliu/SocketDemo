@@ -63,6 +63,8 @@
     socket = CFSocketCreate(kCFAllocatorDefault, AF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketConnectCallBack|kCFSocketDataCallBack|kCFSocketWriteCallBack, (CFSocketCallBack)SktCallback, &_ctx);
     assert(CFSocketIsValid(socket));
     
+    int val = 1;
+    setsockopt(CFSocketGetNative(socket), SOL_SOCKET, SO_NOSIGPIPE, (void *)&val, sizeof(int));
     struct sockaddr_in sock_addr;
     memset(&sock_addr, 0, sizeof(sock_addr));
     sock_addr.sin_len=sizeof(sock_addr);
@@ -121,8 +123,9 @@
         free(bf);
         return res;
     }
-    NSLog(@"received data len = %ld, content = %d", res, bf[1]);
+    NSLog(@"received data len = %ld, content = %s", res, bf);
     free(bf);
+    
     if (res > 0 && delegate) {
         [delegate onDataReceived:buff[buffIdx] length: (int)res];
     }
@@ -133,8 +136,12 @@
     return res;
 }
 -(long) send:(unsigned char*)buff length:(int)len {
+    if (state != SKT_STATE_CONNECTED) {
+        return 0;
+    }
+    
     long res = send(CFSocketGetNative(socket), buff, sizeof(unsigned char)*len, 0);
-    if (res == -1) {
+    if (res <= 0) {
         NSLog(@"socket broken while sending, errno=%d", errno);
         [self onDisconnect];
     }
@@ -146,6 +153,7 @@
 
 -(void) onDisconnect {
     [self disconnect];
+    [self connect];
 }
 
 void SktCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, const void *data, void *info){
@@ -158,27 +166,32 @@ void SktCallback(CFSocketRef s, CFSocketCallBackType type, CFDataRef address, co
                 NSLog(@"connect succeed");
                 tcpComm.state = SKT_STATE_CONNECTED;
                 
-                if (tcpComm.delegate) {
-                    [tcpComm.delegate onStateChanged:SKT_STATE_CONNECTED];
-                }
             }
             else {
+                tcpComm.state = SKT_STATE_DISCONNECT;
                 NSLog(@"connect failed errno=%d", *(UInt32*)data);
+            }
+            
+            if (tcpComm.delegate) {
+                [tcpComm.delegate onStateChanged:tcpComm.state];
             }
             break;
         case kCFSocketAcceptCallBack:
             break;
         case kCFSocketDataCallBack:
-            
+            NSLog(@"incoming data");
             res = [tcpComm recv];
-            NSLog(@"incoming data received %ld", res);
+            NSLog(@"received %ld", res);
             buff[0] = 0x00;
             buff[1] = 0xAA;
             buff[2] = 0x00;
             buff[3] = 0xCC;
-            buff[4] = 231;
-            res = [tcpComm send:buff length:4];
-            NSLog(@"incoming data sent %ld", res);
+            buff[4] = 30;
+            buff[5] = 0x00;
+            buff[6] = 0x00;
+            buff[7] = 0x00;
+            res = [tcpComm send:buff length:8];
+            NSLog(@"sent %ld", res);
             break;
         case kCFSocketWriteCallBack:
             break;
